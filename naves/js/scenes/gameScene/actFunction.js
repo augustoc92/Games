@@ -32,16 +32,16 @@ gameScene.act = function (deltaTime) {
 
     // Move Player2
     if (pressing[KEY_W]) {
-      player.y -= 10;
-    }
-    if (pressing[KEY_A]) {
-      player.x += 10;
-    }
-    if (pressing[KEY_S]) {
-      player.y += 10;
+      player2.y -= 10;
     }
     if (pressing[KEY_D]) {
-      player.x -= 10;
+      player2.x += 10;
+    }
+    if (pressing[KEY_S]) {
+      player2.y += 10;
+    }
+    if (pressing[KEY_A]) {
+      player2.x -= 10;
     }
 
 
