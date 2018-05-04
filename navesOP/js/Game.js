@@ -34,6 +34,10 @@ Ships.Game.prototype = {
     this.enemies.push(new Ships.enemy(150, 20, 10, 10, 0, 2))
     this.enemies.push(new Ships.enemy(170, 20, 10, 10, 0, 2))
     this.enemies.push(new Ships.enemy(190, 20, 10, 10, 0, 2))
+   
+    this.Star = new Image()
+    this.stars = []
+   
     this.shots = []
     this.update()
     this.createArena()
@@ -80,9 +84,14 @@ Ships.Game.prototype = {
     for (var i = 0, l = this.shots.length; i < l; i++) {
       this.shots[i].render(this.ctx)
     }
-   
+    // Stars
+    for(var i=0;i<200;i++){
+      this.stars.push(new Ships.Star(mathRandom(canvas.width),mathRandom(canvas.height)))
+      this.stars[i].render(this.ctx);
+    }
 
- 
+
+
 
 
     //Pause:
@@ -109,54 +118,45 @@ Ships.Game.prototype = {
       this.player.update();
 
       // Enemy Movement
-      for (var i = 0, l = this.enemies.length; i < l; i++) {
-        this.enemies[i].update();
-        // Check if enemy got shot
-        for (var j = 0, ll = this.shots.length; j < ll; j++) {
-          if (
-            this.shots[j].rectCollision(this.enemies[i])
-          ) {
-            this.enemies[i].health--
-            if (this.enemies[i].health == 0) {
-              // score++
-              // // Add PowerUp
-              // var r = random(20);
-              // if (r < 5) {
-              //   if (r == 0)    // New MultiShot
-              //     powerups.push(new Rectangle(enemies[i].x, enemies[i].y, 10, 10, 1));
-              //   else        // New ExtraPoints
-              //     powerups.push(new Rectangle(enemies[i].x, enemies[i].y, 10, 10, 0));
-              // }
-              this.enemies[i].x = mathRandom(canvas.width / 10) * 10
-              this.enemies[i].y = 0
-              this.enemies[i].health = 2
-              this.enemies.push(new Ships.enemy(mathRandom(canvas.width / 10) * 10, 0, 10, 10, 0, 2))
-            }
-            else {
-              this.enemies[i].timer = 1
-            }
-            this.shots.splice(j--, 1)
-            ll--
-          }
-        }
-      }
+      this.enemyAction();
 
-   
       for (var i = 0, l = this.shots.length; i < l; i++) {
         this.shots[i].update();
         if (this.y < 0) {
           this.shots.splice(i--, 1)
-          l--    
+          l--
+        }
       }
-      }
-    
-        
-      
 
     }
 
   },
 
+  enemyAction: function () {
+    for (var i = 0, l = this.enemies.length; i < l; i++) {
+      this.enemies[i].update();
+      // Check if enemy got shot
+      for (var j = 0, ll = this.shots.length; j < ll; j++) {
+
+        if (
+          this.shots[j].rectCollision(this.enemies[i])
+        ) {
+          this.enemies[i].health--
+          if (this.enemies[i].health == 0) {
+            this.enemies[i].x = mathRandom(canvas.width / 10) * 10
+            this.enemies[i].y = 0
+            this.enemies[i].health = 2
+            this.enemies.push(new Ships.enemy(mathRandom(canvas.width / 10) * 10, 0, 10, 10, 0, 2))
+          }
+          else {
+            this.enemies[i].timer = 1
+          }
+          this.shots.splice(j--, 1)
+          ll--
+        }
+      }
+    }
+  },
 
   changeState: function () {
 
