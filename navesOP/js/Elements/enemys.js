@@ -17,7 +17,7 @@ Ships.enemy = function (x, y, width, height, type, health) {
 
 Ships.enemy.prototype = {
 
-  constructor: Ships.player,
+  constructor: Ships.enemy,
 
   init: function () {
 

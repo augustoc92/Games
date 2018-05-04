@@ -13,7 +13,7 @@ Ships.player = function (x, y, width, height, type, health) {
   this.health = (health === undefined) ? 3 : health
   this.timer = 0
   this.elapsedTime = 0
-  this.multiShot = 0
+  this.multiShot = 1
   // this.iBody = new Image()
   // this.iBody.src = './assets/body.png'
 }
@@ -42,6 +42,11 @@ Ships.player.prototype = {
 
 
     this.drawImageArea(ctx, spritesheet, (~~(this.elapsedTime) % 3) * 10, 0, 10, 10)
+
+       // Health
+       ctx.fillStyle = '#fff'
+       ctx.textAlign = 'left'
+       ctx.fillText('Lives: ' + this.health, canvas.width - 45, 20)
 
   },
 
@@ -81,6 +86,35 @@ Ships.player.prototype = {
       Ships.Game.state = 'over';
       // addHighscore(Ships.Game.score)
     }
+    
+    // PowerUps
+    for (var i = 0, l = Ships.Game.powerups.length; i < l; i++) {
+      Ships.Game.powerups[i].y += 5
+      // Powerup Outside Screen
+      if (Ships.Game.powerups[i].y > canvas.height) {
+        Ships.Game.powerups.splice(i--, 1)
+        l--;
+        continue;
+      }
+    if (this.intersects(Ships.Game.powerups[i])) {
+      if (Ships.Game.powerups[i].type == 1) { // MultiShot
+        if (this.multiShot < 3) {
+          Ships.Game.player.multiShot++;
+          // messages.push(new Message('MULTI', this.x - (this.width / 2), this.y - 15))
+        }
+        else {
+          Ships.Game.score += 5;
+          // messages.push(new Message('+5', this.x - (this.width / 2), this.y - 15))
+        }
+      }
+      else { // ExtraPoints
+        Ships.Game.score += 5;
+        // messages.push(new Message('+5', this.x - (this.width / 2), this.y - 15))
+      }
+      Ships.Game.powerups.splice(i--, 1);
+      l--;
+    }
+  }
   },
 
   intersects: function (rect) {
@@ -112,9 +146,12 @@ Ships.player.prototype = {
 
     if (Keyboard.lastPress == Keyboard.KEY_SPACE) {
       if (this.multiShot == 3) {
+        Ships.Game.shots.push(new Ships.Shot(this.x - 9, this.y +2, 5, 5))
+        Ships.Game.shots.push(new Ships.Shot(this.x - 5, this.y, 5, 5))
         Ships.Game.shots.push(new Ships.Shot(this.x, this.y, 5, 5))
         Ships.Game.shots.push(new Ships.Shot(this.x + 5, this.y, 5, 5))
         Ships.Game.shots.push(new Ships.Shot(this.x + 9, this.y + 2, 5, 5))
+        Ships.Game.shots.push(new Ships.Shot(this.x + 14, this.y + 4, 5, 5))
       }
       else if (this.multiShot == 2) {
         Ships.Game.shots.push(new Ships.Shot(this.x, this.y, 5, 5))

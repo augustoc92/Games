@@ -34,10 +34,14 @@ Ships.Game.prototype = {
     this.enemies.push(new Ships.enemy(170, 20, 10, 10, 0, 2))
     this.enemies.push(new Ships.enemy(190, 20, 10, 10, 0, 2))
 
-    this.Star = new Image()
+    this.star = new Image()
+    this.gun = new Image()
+    this.gun.src = 'assets/gun.png'
+    this.star.src = 'assets/star.png'
+    this.powerups = []
     this.stars = []
-
     this.shots = []
+
     this.update()
     this.createArena()
 
@@ -72,17 +76,19 @@ Ships.Game.prototype = {
     this.ctx.fillStyle = '#000'
     this.ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    //Score
-    this.ctx.fillStyle = '#fff'
-    this.ctx.textAlign = 'left'
-    this.ctx.fillText('Score: ' + this.score, 10, 20)
-    //Player
-    this.player.render(this.ctx)
+
 
     // Enemies
     for (var i = 0, l = this.enemies.length; i < l; i++) {
       this.enemies[i].render(this.ctx)
     }
+    //Player
+    this.player.render(this.ctx)
+    //Score
+    this.ctx.fillStyle = '#fff'
+    this.ctx.textAlign = 'left'
+    this.ctx.fillText('Score: ' + this.score, 10, 20)
+
     // Shots
     for (var i = 0, l = this.shots.length; i < l; i++) {
       this.shots[i].render(this.ctx)
@@ -91,6 +97,11 @@ Ships.Game.prototype = {
     for (var i = 0; i < 200; i++) {
       this.stars.push(new Ships.Star(mathRandom(canvas.width), mathRandom(canvas.height)))
       this.stars[i].render(this.ctx);
+    }
+    // PowerUps
+    // PowerUp
+    for (var i = 0, l = this.powerups.length; i < l; i++) {
+      this.powerups[i].render(this.ctx);
     }
 
 
@@ -151,6 +162,14 @@ Ships.Game.prototype = {
           this.enemies[i].health--
           if (this.enemies[i].health == 0) {
             this.score++
+            // Add PowerUp
+            var r = mathRandom(20);
+            if (r < 5) {
+              if (r == 0)    // New MultiShot
+                this.powerups.push(new Ships.PowerUp(this.enemies[i].x, this.enemies[i].y, 10, 10, 1));
+              else        // New ExtraPoints
+                this.powerups.push(new Ships.PowerUp(this.enemies[i].x, this.enemies[i].y, 10, 10, 0));
+            }
             this.enemies[i].x = mathRandom(canvas.width / 10) * 10
             this.enemies[i].y = 0
             this.enemies[i].health = 2
