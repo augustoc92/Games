@@ -36,9 +36,11 @@ Ships.Game.prototype = {
 
   update: function () {
 
-    
-    this.render()
+   
 
+   
+    this.render()
+    
     this.changeState()
 
     this.resume()
@@ -46,6 +48,7 @@ Ships.Game.prototype = {
     this.pause()
 
     setTimeout((this.update.bind(this)), 40)
+    
 
   },
 
@@ -182,13 +185,15 @@ Ships.Game.prototype = {
 
       }
 
-      else if (this.state === 'over') {
-
-        this.die()
-
-      }
+      else if (this.state === 'over' && Keyboard.lastPress === Keyboard.KEY_ENTER) {
+        this.enemies = [];
+        this.createArena();
+        this.state = 'playing';
        
 
+      }
+      
+      
     }
 
   },
