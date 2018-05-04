@@ -1,0 +1,1 @@
+highScoresScene = new Scene();
