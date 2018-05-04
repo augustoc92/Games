@@ -15,6 +15,21 @@ Ships.Star.prototype = {
       init: function () {
     
       },
+
+      update : function(){
+            
+        this.moveStars();
+      
+    },
+
+      moveStars: function (){
+            // Move Stars
+    // this.y++
+    // if(this.y>canvas.height) {
+    //   this.y=0
+    // }
+  
+      },
   
   render: function(ctx){
 
