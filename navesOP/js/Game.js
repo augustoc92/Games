@@ -22,34 +22,21 @@ Ships.Game.prototype = {
     this.canvas = document.getElementById('canvas')
     this.ctx = canvas.getContext('2d')
     this.state = 'playing'
-    this.player = new Ships.player(90, 290, 10, 10, 0, 3);
+    var messages = []
     this.enemies = []
-    this.enemies.push(new Ships.enemy(10, 20, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(30, 20, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(50, 20, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(80, 0, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(100, 0, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(120, 0, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(150, 20, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(170, 20, 10, 10, 0, 2))
-    this.enemies.push(new Ships.enemy(190, 20, 10, 10, 0, 2))
-
-    this.star = new Image()
-    this.gun = new Image()
-    this.gun.src = 'assets/gun.png'
-    this.star.src = 'assets/star.png'
     this.powerups = []
     this.stars = []
     this.shots = []
-
-    this.update()
     this.createArena()
+    this.update()
+    
 
 
   },
 
   update: function () {
 
+    
     this.render()
 
     this.changeState()
@@ -97,16 +84,12 @@ Ships.Game.prototype = {
     for (var i = 0; i < 200; i++) {
       this.stars.push(new Ships.Star(mathRandom(canvas.width), mathRandom(canvas.height)))
       this.stars[i].render(this.ctx);
+      
     }
     // PowerUps
-    // PowerUp
     for (var i = 0, l = this.powerups.length; i < l; i++) {
       this.powerups[i].render(this.ctx);
     }
-
-
-
-
 
     //Pause:
     if (this.state === 'pause') {
@@ -204,6 +187,7 @@ Ships.Game.prototype = {
         this.die()
 
       }
+       
 
     }
 
@@ -215,7 +199,21 @@ Ships.Game.prototype = {
 
     this.canvas = document.getElementById('canvas')
     this.ctx = canvas.getContext('2d')
-
+    this.star = new Image()
+    this.gun = new Image()
+    this.gun.src = 'assets/gun.png'
+    this.star.src = 'assets/star.png' 
+    this.player = new Ships.player(90, 290, 10, 10, 0, 3);
+    this.enemies.push(new Ships.enemy(10, 20, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(30, 20, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(50, 20, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(80, 0, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(100, 0, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(120, 0, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(150, 20, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(170, 20, 10, 10, 0, 2))
+    this.enemies.push(new Ships.enemy(190, 20, 10, 10, 0, 2))
+   
     /*    this.walls = new Array()
         this.walls.push(new Snake.Wall(100, 50, 10, 10))
         this.walls.push(new Snake.Wall(100, 100, 10, 10))

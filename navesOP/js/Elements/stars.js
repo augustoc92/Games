@@ -13,7 +13,10 @@ Ships.Star.prototype = {
     constructor: Ships.Star,
     
       init: function () {
-    
+    this.y++
+    if(this.y>canvas.height) {
+      this.y=0
+    }
       },
 
       update : function(){
@@ -24,10 +27,10 @@ Ships.Star.prototype = {
 
       moveStars: function (){
             // Move Stars
-    // this.y++
-    // if(this.y>canvas.height) {
-    //   this.y=0
-    // }
+            // this.y++
+            // if(this.y>canvas.height) {
+            //   this.y=0
+            // }
   
       },
   
