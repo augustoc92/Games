@@ -15,18 +15,7 @@ Ships.Game.prototype = {
 
   init: function () {
 
-    this.canvas = null;
-    this.ctx = null
-    this.score = 0;
-    this.gameover = false;
-    this.canvas = document.getElementById('canvas')
-    this.ctx = canvas.getContext('2d')
-    this.state = 'playing'
-    var messages = []
-    this.enemies = []
-    this.powerups = []
-    this.stars = []
-    this.shots = []
+
     this.createArena()
     this.update()
     
@@ -181,12 +170,12 @@ Ships.Game.prototype = {
       }
       else if (this.state === 'playing') {
 
-        this.state = 'pause'
+        this.state = 'pause '
 
       }
 
       else if (this.state === 'over' && Keyboard.lastPress === Keyboard.KEY_ENTER) {
-        this.enemies = [];
+      
         this.createArena();
         this.state = 'playing';
        
@@ -202,8 +191,17 @@ Ships.Game.prototype = {
 
   createArena: function () {
 
+    this.canvas = null;
+    this.ctx = null
+    this.gameover = false;
+    this.state = 'playing'
+    this.stars = []
     this.canvas = document.getElementById('canvas')
     this.ctx = canvas.getContext('2d')
+    this.score = 0;
+    this.enemies = []
+    this.powerups = []
+    this.shots = []
     this.star = new Image()
     this.gun = new Image()
     this.gun.src = 'assets/gun.png'
@@ -218,13 +216,6 @@ Ships.Game.prototype = {
     this.enemies.push(new Ships.enemy(150, 20, 10, 10, 0, 2))
     this.enemies.push(new Ships.enemy(170, 20, 10, 10, 0, 2))
     this.enemies.push(new Ships.enemy(190, 20, 10, 10, 0, 2))
-   
-    /*    this.walls = new Array()
-        this.walls.push(new Snake.Wall(100, 50, 10, 10))
-        this.walls.push(new Snake.Wall(100, 100, 10, 10))
-        this.walls.push(new Snake.Wall(200, 50, 10, 10))
-        this.walls.push(new Snake.Wall(200, 100, 10, 10))
-    */
   }
 
 }
