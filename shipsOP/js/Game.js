@@ -14,38 +14,21 @@ Ships.Game.prototype = {
   constructor: Ships.Game,
 
   init: function () {
-
-
     this.createArena()
     this.update()
-    
-
-
   },
 
   update: function () {
-
-   
-
-   
-    this.render()
-    
+    this.render()    
     this.changeState()
-
     this.resume()
-
     this.pause()
-
     setTimeout((this.update.bind(this)), 40)
-    
-
   },
 
 
   pause: function () {
-
     Keyboard.lastPress = null
-
   },
 
 

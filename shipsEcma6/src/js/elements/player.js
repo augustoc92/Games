@@ -56,7 +56,7 @@ export default class Player extends Rectangle {
         if (this.y < 0) {
             this.y = 0
         }
-            // Check Hp
+        // Check Hp
         if (this.timer > 0) {
             this.timer = this.timer - 1
         }
@@ -66,6 +66,7 @@ export default class Player extends Rectangle {
     }
 
     checkPowerUp(powerUps){
+        //Check For Range inside Canvas and Intersection
         for (var i = 0, l = powerups.length; i < l; i++) {
             powerups[i].y += 5
             if (powerups[i].y > canvas.height) {

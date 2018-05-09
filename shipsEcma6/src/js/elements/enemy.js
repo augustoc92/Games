@@ -16,18 +16,15 @@ export default class Enemy extends Rectangle {
         
     update(player1) {
         this.moveEnemy();
-
         this.checkIntersect(player1);
     }
-
+    // Enemy checks position
     checkIntersect(player1){
         if(player1.intersects(this) && player1.timer == 0){
             player1.health = player1.health - 1;
             player1.timer = 20;
         }
     }
-    
-    // Player Intersects Enemy
     moveEnemy () {
         this.y += 2;
         if (this.timer > 0) this.timer--;

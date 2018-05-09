@@ -12,6 +12,8 @@ export default class Game {
         this.state = null;
         this.player1 = null;
         this.stars = [];
+        this.spritesheet = new Image();
+        this.spritesheet.src = '../dist/assets/spritesheet.png';
     }
 
     init() {
@@ -20,21 +22,23 @@ export default class Game {
     }
 
     checkState() {
-    
-        if (KeyBoard.lastPress === KeyBoard.KEY_ENTER) {
-            if (this.state === 'pause') {
+        const isPaused = this.state === 'pause'
+        const isEnter = KeyBoard.lastPress === KeyBoard.KEY_ENTER
+        if (isEnter) {
+            const isPlaying = this.state === 'playing'
+            const isOver = this.state === 'over'
+            if (isPaused) {
               this.state = 'playing';
             }
-            else if (this.state === 'playing') {
+            else if (isPlaying) {
                 this.state = 'pause';
             }
-            else if (this.state === 'over' 
-            && KeyBoard.lastPress === KeyBoard.KEY_ENTER) {
+            else if (isOver) {
                 this.createArena();
                 this.state = 'playing';
             }
         }
-        if (this.state === 'pause') {
+        if (isPaused) {
             ctx.textAlign = 'center';
             ctx.fillStyle = 'white'
             ctx.fillText('PAUSE', 150, 75);
@@ -47,11 +51,11 @@ export default class Game {
         this.checkState();
         this.resume();
         this.pause();
-        setTimeout((this.update.bind(this)), 40);
+        setTimeout(this.update.bind(this), 40);
     }
 
     pause() {
-            KeyBoard.lastPress = null
+        KeyBoard.lastPress = null;
     }
 
     render() {
@@ -60,7 +64,10 @@ export default class Game {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         //Draw Stars
         for (var i = 0; i < 200; i++) {
-            this.stars.push(new Star(MathRandom.max(canvas.width), MathRandom.max(canvas.height)));
+            const maxW = MathRandom.max(canvas.width);
+            const maxH = MathRandom.max(canvas.heightwidth);
+            const star = new Star(maxW, maxH);
+            this.stars.push(star);
             this.stars[i].render(ctx);
         }
         //Draw Player
@@ -121,7 +128,7 @@ export default class Game {
     }
 
     createArena() {
-        this.player1 = new Player(90,290,10,10,3);
+        this.player1 = new Player(90, 290, 10, 10, 3);
         this.enemies = [];
         this.enemies.push(new Enemy(10, 20, 10, 10));
         this.enemies.push(new Enemy(30, 20, 10, 10));
