@@ -138,7 +138,7 @@ export default class Game {
             ctx.textAlign = 'left';
             ctx.fillText('Lives: ' + this.player1.health, canvas.width - 45, 20);
             //Pause:
-             if (this.state === 'pause') {
+            if (this.state === 'pause') {
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'white';
                 ctx.fillText('PAUSE', 150, 75);
@@ -151,7 +151,6 @@ export default class Game {
         if (this.state === 'playing' && this.scene == 'playing') {
             // Move player and shots
             this.player1.update();
-            
             for (var i = 0, l = this.player1.shots.length; i < l; i++) {
                 this.player1.shots[i].update();
             }
@@ -164,21 +163,20 @@ export default class Game {
                             this.player1.shots.splice(j--, 1)
                             ll--;
                             if (this.enemies[i].health == 0) {
-                            this.player1.score++;
-                            let r = MathRandom.max(20);
+                                this.player1.score++;
+                                let r = MathRandom.max(20);
                                 if (r < 5) {
                                     if (r == 0){    // New MultiShot
                                         this.powerUps.push(new PowerUp(this.enemies[i].x, this.enemies[i].y, 10, 10, 1));
-                                    } else {        // New ExtraPoints
+                                    } 
+                                    else {        // New ExtraPoints
                                         this.powerUps.push(new PowerUp(this.enemies[i].x, this.enemies[i].y, 10, 10, 0));
                                     }
                                 }   
-                            this.enemies[i].x = MathRandom.max(canvas.width / 10) * 10;
-                            this.enemies[i].y = 0;
-                            this.enemies[i].health = 2;
-                            this.enemies.push(new Enemy(MathRandom.max(canvas.width / 10) * 10, 0, 10, 10));
-                            
-                           
+                                this.enemies[i].x = MathRandom.max(canvas.width / 10) * 10;
+                                this.enemies[i].y = 0;
+                                this.enemies[i].health = 2;
+                                this.enemies.push(new Enemy(MathRandom.max(canvas.width / 10) * 10, 0, 10, 10)); 
                         } 
                         else {
                             this.enemies[i].timer = 1;
@@ -196,7 +194,6 @@ export default class Game {
                     this.powerUps.splice(i--, 1);
                     l--;
                 }
-               
             }  
         }
     }
@@ -223,5 +220,4 @@ export default class Game {
         }
         this.state = 'playing';
     }
-
 }

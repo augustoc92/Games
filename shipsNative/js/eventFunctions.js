@@ -8,12 +8,12 @@ window.requestAnimationFrame = (function () {
 }());
 
 document.addEventListener('keydown', function (evt) {
-    lastPress = evt.keyCode
-    pressing[evt.keyCode] = true
+    lastPress = evt.keyCode;
+    pressing[evt.keyCode] = true;
 }, false)
 
 document.addEventListener('keyup', function (evt) {
-    pressing[evt.keyCode] = false
+    pressing[evt.keyCode] = false;
 }, false)
 
 window.addEventListener('load', init, false);

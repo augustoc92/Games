@@ -13,7 +13,7 @@ export default class Shot extends Rectangle {
     }
 
     moveShots() {
-        this.y -= 10
+        this.y -= 10;
     }
 }
 

@@ -2,6 +2,7 @@ import Canvas from './canvas'
 import MathRandom from '../utils/MathRandom';
 
 export default class Star{
+    
     constructor(x,y){ 
         this.x = (x == null) ? 0 : x;
         this.y = (y == null) ? 0 : y;

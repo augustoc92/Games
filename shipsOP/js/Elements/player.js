@@ -60,7 +60,6 @@ Ships.player.prototype = {
   },
 
   checkStatus: function () {
-
     // Check position
     if (this.x > canvas.width - 10) {
       this.x = canvas.width - 10;
@@ -86,7 +85,6 @@ Ships.player.prototype = {
       Ships.Game.state = 'over';
       // addHighscore(Ships.Game.score)
     }
-    
     // PowerUps
     for (var i = 0, l = Ships.Game.powerups.length; i < l; i++) {
       Ships.Game.powerups[i].y += 5
@@ -96,25 +94,25 @@ Ships.player.prototype = {
         l--;
         continue;
       }
-    if (this.intersects(Ships.Game.powerups[i])) {
-      if (Ships.Game.powerups[i].type == 1) { // MultiShot
-        if (this.multiShot < 3) {
-          Ships.Game.player.multiShot++;
-          // messages.push(new Message('MULTI', this.x - (this.width / 2), this.y - 15))
+      if (this.intersects(Ships.Game.powerups[i])) {
+        if (Ships.Game.powerups[i].type == 1) { // MultiShot
+          if (this.multiShot < 3) {
+            Ships.Game.player.multiShot++;
+            // messages.push(new Message('MULTI', this.x - (this.width / 2), this.y - 15))
+          }
+          else {
+            Ships.Game.score += 5;
+            // messages.push(new Message('+5', this.x - (this.width / 2), this.y - 15))
+          }
         }
-        else {
+        else { // ExtraPoints
           Ships.Game.score += 5;
           // messages.push(new Message('+5', this.x - (this.width / 2), this.y - 15))
         }
+        Ships.Game.powerups.splice(i--, 1);
+        l--;
       }
-      else { // ExtraPoints
-        Ships.Game.score += 5;
-        // messages.push(new Message('+5', this.x - (this.width / 2), this.y - 15))
-      }
-      Ships.Game.powerups.splice(i--, 1);
-      l--;
     }
-  }
   },
 
   intersects: function (rect) {
@@ -129,8 +127,7 @@ Ships.player.prototype = {
     }
   },
 
-  checkKeyboard: function () {
-
+  checkKeyboard: function() {
     if (Keyboard.pressing[Keyboard.KEY_UP]) {
       this.y -= 10;
     }
@@ -143,7 +140,6 @@ Ships.player.prototype = {
     if (Keyboard.pressing[Keyboard.KEY_LEFT]) {
       this.x -= 10;
     }
-
     if (Keyboard.lastPress == Keyboard.KEY_SPACE) {
       if (this.multiShot == 3) {
         Ships.Game.shots.push(new Ships.Shot(this.x - 9, this.y +2, 5, 5))
@@ -162,10 +158,6 @@ Ships.player.prototype = {
       }
       Keyboard.lastPress = null
     }
-
-
   },
-
-
 
 }
