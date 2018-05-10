@@ -1,4 +1,5 @@
 import MathRandom from './utils/MathRandom';
+import OrderByMax from './utils/OrderByMax';
 import { KeyBoard } from './utils/Keyboard.js';
 import { canvas, ctx } from './elements/canvas';
 import Player from './elements/player';
@@ -15,7 +16,10 @@ export default class Game {
         this.player1 = null;
         this.stars = [];
         this.spritesheet = new Image();
-        this.spritesheet.src = '../dist/assets/spritesheet.png';
+        this.highscores = [];   
+        localStorage.setItem("highscores", JSON.stringify(this.highscores));
+        this.storedHighScores = JSON.parse(localStorage.getItem("highscores"));
+        this.spritesheet.src = '../../shipsEcma6/src/assets/spritesheet.png';
     }
 
     init() {
@@ -70,9 +74,12 @@ export default class Game {
             this.scene = 'gameover';
             if (this.state === 'playing') {
                 this.highscores.push(this.player1.score);
+                localStorage.setItem("highscores", JSON.stringify(this.highscores));
+                this.storedHighScores = JSON.parse(localStorage.getItem("highscores"));
+                this.storedHighScores = OrderByMax.Order(this.highscores);
             }
             this.state = 'over';
-            paintHighScoresScene(ctx, this.highscores);
+            paintHighScoresScene(ctx, this.storedHighScores);
             if (isEnter) {
                 this.scene = 'playing';
                 this.state = 'playing';
@@ -95,27 +102,38 @@ export default class Game {
             for (var i = 0; i < 200; i++) {
                 this.stars[i].render(ctx);
             }
-            //Draw Player
-            ctx.fillStyle = 'blue';
-            this.player1.fill(ctx);
+            //Draw Player 
+            // ctx.fillStyle = 'blue';
+            // this.player1.fill(ctx);
+            this.player1.drawImageArea(ctx,this.spritesheet, 0, 0, 10, 10)
             //Draw Enemies
-            ctx.fillStyle = 'green';
             for (var i = 0, l = this.enemies.length; i < l; i++) {
-                this.enemies[i].fill(ctx);
+                // ctx.fillStyle = 'white';
+                // this.enemies[i].fill(ctx);
+                this.enemies[i].drawImageArea(ctx, this.spritesheet, 30, 0, 10, 10)
             }
             //Draw Shots
             ctx.fillStyle = 'white';
             for (var i = 0, l = this.player1.shots.length; i < l; i++) {
-                this.player1.shots[i].fill(ctx);
+                // ctx.fillStyle = 'red';
+                // this.shots[i].fill(ctx);
+                this.player1.shots[i].drawImageArea(ctx, this.spritesheet, 70, 0, 10, 10);
             }
             //Draw Score
             ctx.fillStyle = '#fff';
             ctx.textAlign = 'left';
             ctx.fillText('Score: ' + this.player1.score, 10, 20);
             //Draw HP
-            ctx.fillStyle = '#fff'
-            ctx.textAlign = 'left'
-            ctx.fillText('Lives: ' + this.player1.health, canvas.width - 45, 20)   
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'left';
+            ctx.fillText('Lives: ' + this.player1.health, canvas.width - 45, 20);
+            //Pause:
+             if (this.state === 'pause') {
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'white';
+                ctx.fillText('PAUSE', 150, 75);
+                ctx.textAlign = 'left';
+            }
         }
     }
 
@@ -155,7 +173,6 @@ export default class Game {
 
     createArena() {
         this.scene = 'main';
-        this.highscores = [];
         this.player1 = new Player(90, 290, 10, 10, 3);
         this.enemies = [];
         this.enemies.push(new Enemy(10, 20, 10, 10));

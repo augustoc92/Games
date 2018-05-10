@@ -1,5 +1,5 @@
 
-const paintMainScene = (ctx) =>{
+const paintMainScene = ctx =>{
  // Clean canvas
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
