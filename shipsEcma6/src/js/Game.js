@@ -5,6 +5,8 @@ import Player from './elements/player';
 import Enemy from './elements/enemy';
 import Shot from './elements/shot';
 import Star from './elements/star';
+import { paintMainScene } from './scenes/paintMainscene';
+import { paintHighScoresScene } from './scenes/highscoreScene';
 
 export default class Game {
 
@@ -47,11 +49,37 @@ export default class Game {
     }   
 
     update() {
-        this.render();
+        this.checkScene();
         this.checkState();
+        this.render();
         this.resume();
         this.pause();
         setTimeout(this.update.bind(this), 40);
+    }
+
+    checkScene() {
+        const isEnter = KeyBoard.lastPress === KeyBoard.KEY_ENTER;
+        if (this.scene === 'main') {
+            paintMainScene(ctx);
+            if (isEnter) {
+                this.scene = 'playing';
+                KeyBoard.lastPress = null;
+            }
+        }
+        else if(this.player1.health == 0){
+            this.scene = 'gameover';
+            if (this.state === 'playing') {
+                this.highscores.push(this.player1.score);
+            }
+            this.state = 'over';
+            paintHighScoresScene(ctx, this.highscores);
+            if (isEnter) {
+                this.scene = 'playing';
+                this.state = 'playing';
+                this.createArena();
+                KeyBoard.lastPress = null;
+            }
+        }
     }
 
     pause() {
@@ -59,42 +87,40 @@ export default class Game {
     }
 
     render() {
-        //Draw Canvas
-        ctx.fillStyle = '#000';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        //Draw Stars
-        for (var i = 0; i < 200; i++) {
-            const maxW = MathRandom.max(canvas.width);
-            const maxH = MathRandom.max(canvas.heightwidth);
-            const star = new Star(maxW, maxH);
-            this.stars.push(star);
-            this.stars[i].render(ctx);
+        if (this.scene === 'playing') {
+            //Draw Canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            //Draw Stars
+            for (var i = 0; i < 200; i++) {
+                this.stars[i].render(ctx);
+            }
+            //Draw Player
+            ctx.fillStyle = 'blue';
+            this.player1.fill(ctx);
+            //Draw Enemies
+            ctx.fillStyle = 'green';
+            for (var i = 0, l = this.enemies.length; i < l; i++) {
+                this.enemies[i].fill(ctx);
+            }
+            //Draw Shots
+            ctx.fillStyle = 'white';
+            for (var i = 0, l = this.player1.shots.length; i < l; i++) {
+                this.player1.shots[i].fill(ctx);
+            }
+            //Draw Score
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'left';
+            ctx.fillText('Score: ' + this.player1.score, 10, 20);
+            //Draw HP
+            ctx.fillStyle = '#fff'
+            ctx.textAlign = 'left'
+            ctx.fillText('Lives: ' + this.player1.health, canvas.width - 45, 20)   
         }
-        //Draw Player
-        ctx.fillStyle = 'blue';
-        this.player1.fill(ctx);
-        //Draw Enemies
-        ctx.fillStyle = 'green';
-        for (var i = 0, l = this.enemies.length; i < l; i++) {
-            this.enemies[i].fill(ctx);
-        }
-        //Draw Shots
-        ctx.fillStyle = 'white';
-        for (var i = 0, l = this.player1.shots.length; i < l; i++) {
-            this.player1.shots[i].fill(ctx);
-        }
-        //Draw Score
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'left';
-        ctx.fillText('Score: ' + this.player1.score, 10, 20);
-        //Draw HP
-        ctx.fillStyle = '#fff'
-        ctx.textAlign = 'left'
-        ctx.fillText('Lives: ' + this.player1.health, canvas.width - 45, 20)
     }
 
     resume() {
-        if (this.state === 'playing') {
+        if (this.state === 'playing' && this.scene == 'playing') {
             // Move player and shots
             this.player1.update();
             for (var i = 0, l = this.player1.shots.length; i < l; i++) {
@@ -128,6 +154,8 @@ export default class Game {
     }
 
     createArena() {
+        this.scene = 'main';
+        this.highscores = [];
         this.player1 = new Player(90, 290, 10, 10, 3);
         this.enemies = [];
         this.enemies.push(new Enemy(10, 20, 10, 10));
@@ -139,6 +167,12 @@ export default class Game {
         this.enemies.push(new Enemy(150, 20, 10, 10));
         this.enemies.push(new Enemy(170, 20, 10, 10));
         this.enemies.push(new Enemy(190, 20, 10, 10));
+        for (var i = 0; i < 200; i++) {
+            const maxW = MathRandom.max(canvas.width);
+            const maxH = MathRandom.max(canvas.height);
+            const star = new Star(maxW, maxH);
+            this.stars.push(star);
+        }
         this.state = 'playing';
     }
 

@@ -1,3 +1,5 @@
+import Canvas from './canvas'
+import MathRandom from '../utils/MathRandom';
 
 export default class Star{
     constructor(x,y){ 
@@ -17,6 +19,12 @@ export default class Star{
     }
 
     moveStars() {
+            this.y += 1;
+            if (this.timer > 0) this.timer--;
+            if (this.y > canvas.height) {
+                this.x = MathRandom.max(canvas.width / 10) * 10;
+                this.y = 0;
+            }
     }
 
     render(ctx){
