@@ -205,6 +205,7 @@ export default class Game {
         this.scene = 'main';
         this.player1 = new Player(90, 290, 10, 10, 3);
         this.enemies = [];
+        this.powerUps = [];
         this.enemies.push(new Enemy(10, 20, 10, 10));
         this.enemies.push(new Enemy(30, 20, 10, 10));
         this.enemies.push(new Enemy(50, 20, 10, 10));

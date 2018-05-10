@@ -34,7 +34,7 @@ export default class Player extends Rectangle {
             this.x -= 10;
         }
         if (KeyBoard.lastPress == KeyBoard.KEY_SPACE) {
-            if (this.multiShot == 2) {
+            if (this.multiShot >= 2) {
                 this.shots.push(new Shot(this.x - 9, this.y +2, 5, 5))
                 this.shots.push(new Shot(this.x - 5, this.y, 5, 5))
                 this.shots.push(new Shot(this.x, this.y, 5, 5))
