@@ -1,21 +1,16 @@
 gameScene.act = function (deltaTime) {
   if (!pause) {
-
     // GameOver Reset
-
     if (gameover) {
-      loadScene(highScoresScene)
+      loadScene(highScoresScene);
     }
-
     // Move Stars
-
     for (i = 0, l = stars.length; i < l; i++) {
-      stars[i].y++
+      stars[i].y++;
       if (stars[i].y > canvas.height) {
-        stars[i].y = 0
+        stars[i].y = 0;
       }
     }
-
     // Move Player
     if (pressing[KEY_UP]) {
       player.y -= 10;
@@ -29,7 +24,6 @@ gameScene.act = function (deltaTime) {
     if (pressing[KEY_LEFT]) {
       player.x -= 10;
     }
-
     // Move Player2
     if (pressing[KEY_W]) {
       player2.y -= 10;
@@ -43,13 +37,11 @@ gameScene.act = function (deltaTime) {
     if (pressing[KEY_A]) {
       player2.x -= 10;
     }
-
-
     // Move Enemies
     for (var i = 0, l = enemies.length; i < l; i++) {
       enemies[i].y += 2;
       if (enemies[i].timer > 0)
-        enemies[i].timer--
+        enemies[i].timer--;
       if (enemies[i].y > canvas.height) {
         enemies[i].x = random(canvas.width / 10) * 10;
         enemies[i].y = 0;
@@ -57,16 +49,14 @@ gameScene.act = function (deltaTime) {
 
       // Player Intersects Enemy
       if (player.intersects(enemies[i]) && player.timer == 0) {
-        player.health = player.health - 1
-        player.timer = 20
+        player.health = player.health - 1;
+        player.timer = 20;
       }
 
       // Shot Intersects Enemy
       for (var j = 0, ll = shots.length; j < ll; j++) {
-        if (
-          shots[j].rectCollision(enemies[i])
-        ) {
-          enemies[i].health--
+        if (shots[j].rectCollision(enemies[i])) {
+          enemies[i].health--;
           if (enemies[i].health == 0) {
             score++
             // Add PowerUp
@@ -77,16 +67,16 @@ gameScene.act = function (deltaTime) {
               else        // New ExtraPoints
                 powerups.push(new Rectangle(enemies[i].x, enemies[i].y, 10, 10, 0));
             }
-            enemies[i].x = random(canvas.width / 10) * 10
-            enemies[i].y = 0
-            enemies[i].health = 2
-            enemies.push(new Rectangle(random(canvas.width / 10) * 10, 0, 10, 10, 0, 2))
+            enemies[i].x = random(canvas.width / 10) * 10;
+            enemies[i].y = 0;
+            enemies[i].health = 2;
+            enemies.push(new Rectangle(random(canvas.width / 10) * 10, 0, 10, 10, 0, 2));
           }
           else {
-            enemies[i].timer = 1
+            enemies[i].timer = 1;
           }
-          shots.splice(j--, 1)
-          ll--
+          shots.splice(j--, 1);
+          ll--;
         }
       }
     }
@@ -220,7 +210,6 @@ gameScene.act = function (deltaTime) {
       }
       lastPress = null
     }
-
     // Move Shots
     for (var i = 0, l = shots.length; i < l; i++) {
       shots[i].y -= 10
@@ -229,13 +218,11 @@ gameScene.act = function (deltaTime) {
         l--
       }
     }
-
     // Elapsed time
     elapsedTime += deltaTime;
     if (elapsedTime > 3600) {
       elapsedTime -= 3600;
     }
-
     // Move Messages
     for (var i = 0, l = messages.length; i < l; i++) {
       messages[i].y += 2
@@ -244,13 +231,10 @@ gameScene.act = function (deltaTime) {
         l--;
       }
     }
-
   }
-
-  // Pause/Unpause
+   // Pause/Unpause
   if (lastPress == KEY_ENTER) {
     pause = !pause;
     lastPress = null;
   }
-
 }

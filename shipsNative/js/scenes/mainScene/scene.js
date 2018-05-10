@@ -1,3 +1,3 @@
 //Create Main Scene
 
-mainScene = new Scene()
+mainScene = new Scene();

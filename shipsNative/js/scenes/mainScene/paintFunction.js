@@ -2,8 +2,8 @@
 
 mainScene.paint = function (ctx) {
   // Clean canvas
-  ctx.fillStyle = 'black'
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw Stars
   ctx.fillStyle='#fff';
@@ -12,8 +12,8 @@ mainScene.paint = function (ctx) {
   }
 
   // Draw title
-  ctx.fillStyle = '#fff'
-  ctx.textAlign = 'center'
-  ctx.fillText('SHIPS', 100, 125)
-  ctx.fillText('Press Enter', 100, 175)
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.fillText('SHIPS', 100, 125);
+  ctx.fillText('Press Enter', 100, 175);
 }

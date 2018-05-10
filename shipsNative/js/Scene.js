@@ -1,6 +1,6 @@
 function Scene() {
-  this.id = scenes.length
-  scenes.push(this)
+  this.id = scenes.length;
+  scenes.push(this);
 }
 
 Scene.prototype = {
@@ -11,6 +11,6 @@ Scene.prototype = {
 }
 
 function loadScene(scene) {
-  currentScene = scene.id
-  scenes[currentScene].load()
+  currentScene = scene.id;
+  scenes[currentScene].load();
 }
