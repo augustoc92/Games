@@ -1,5 +1,4 @@
 //Create paint function
-
 highScoresScene.paint = function(ctx) {
   var i = 0,
   var l = 0;

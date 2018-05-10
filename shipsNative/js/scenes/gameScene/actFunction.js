@@ -46,13 +46,11 @@ gameScene.act = function (deltaTime) {
         enemies[i].x = random(canvas.width / 10) * 10;
         enemies[i].y = 0;
       }
-
       // Player Intersects Enemy
       if (player.intersects(enemies[i]) && player.timer == 0) {
         player.health = player.health - 1;
         player.timer = 20;
       }
-
       // Shot Intersects Enemy
       for (var j = 0, ll = shots.length; j < ll; j++) {
         if (shots[j].rectCollision(enemies[i])) {
@@ -80,7 +78,6 @@ gameScene.act = function (deltaTime) {
         }
       }
     }
-
     // Move PowerUps
     for (var i = 0, l = powerups.length; i < l; i++) {
       powerups[i].y += 5
@@ -90,7 +87,6 @@ gameScene.act = function (deltaTime) {
         l--;
         continue;
       }
-
       // Player intersects
       if (player.intersects(powerups[i])) {
         if (powerups[i].type == 1) { // MultiShot
@@ -110,7 +106,6 @@ gameScene.act = function (deltaTime) {
         powerups.splice(i--, 1);
         l--;
       }
-
       // Player 2 intersects
       if (player2.intersects(powerups[i])) {
         if (powerups[i].type == 1) { // MultiShot
@@ -131,7 +126,6 @@ gameScene.act = function (deltaTime) {
         l--;
       }
     }
-
     // Timer
     if (player.timer > 0) {
       player.timer = player.timer - 1
@@ -144,39 +138,32 @@ gameScene.act = function (deltaTime) {
       pause = true;
       addHighscore(score)
     }
-
     //walls player 1
-
     if (player.x > canvas.width - 10) {
       player.x = canvas.width - 10;
     }
     if (player.x < 0) {
       player.x = 0
     }
-
     if (player.y > canvas.height - 10) {
       player.y = canvas.height - 10;
     }
     if (player.y < 0) {
       player.y = 0
     }
-
     //walls player 2
-
     if (player2.x > canvas.width - 10) {
       player2.x = canvas.width - 10;
     }
     if (player2.x < 0) {
       player2.x = 0
     }
-
     if (player2.y > canvas.height - 10) {
       player2.y = canvas.height - 10;
     }
     if (player2.y < 0) {
       player2.y = 0
     }
-
     // New Shot
     if (lastPress == KEY_SPACE) {
       if (multiShot == 3) {
@@ -193,7 +180,6 @@ gameScene.act = function (deltaTime) {
       }
       lastPress = null
     }
-
     //New shot player 2
     if (lastPress == KEY_E) {
       if (multiShot == 3) {

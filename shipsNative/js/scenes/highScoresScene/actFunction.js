@@ -1,6 +1,5 @@
 //Create act function
 highScoresScene.act = function() {
-
   // Move Stars
   for(i=0,l=stars.length;i<l;i++){
     stars[i].y++;
@@ -8,7 +7,6 @@ highScoresScene.act = function() {
       stars[i].y=0;
     }
   }
-
   // Load next scene
   if (lastPress === KEY_ENTER) {
       loadScene(gameScene);

@@ -10,7 +10,7 @@ Ships.enemy = function (x, y, width, height, type, health) {
   this.width = (width === undefined) ? 0 : width;
   this.height = (height === undefined) ? width : height;
   this.type = (type === undefined) ? 1 : type;
-    this.health = (health === undefined) ? 3 : health;
+  this.health = (health === undefined) ? 3 : health;
   this.timer = 0;
   this.elapsedTime = 0;
 }
@@ -19,10 +19,10 @@ Ships.enemy.prototype = {
 
   constructor: Ships.enemy,
 
-  init: function () {
+  init: function() {
   },
 
-  update: function () {
+  update: function() {
     // Change Direction:
     this.moveEnemy();
   },
@@ -73,7 +73,7 @@ Ships.enemy.prototype = {
     else
       ctx.strokeRect(this.x, this.y, this.width, this.height);
   },
-  
+
 }
 
 
