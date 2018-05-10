@@ -6,16 +6,23 @@ import Player from './elements/player';
 import Enemy from './elements/enemy';
 import Shot from './elements/shot';
 import Star from './elements/star';
+import PowerUp from './elements/powerUps';
 import { paintMainScene } from './scenes/paintMainscene';
 import { paintHighScoresScene } from './scenes/highscoreScene';
 
 export default class Game {
 
     constructor() {
+        debugger;
         this.state = null;
         this.player1 = null;
         this.stars = [];
+        this.powerUps = [];
         this.spritesheet = new Image();
+        this.gun = new Image();
+        this.gun.src ='../../shipsEcma6/src/assets/gun.png';
+        this.starImg = new Image();
+        this.starImg.src ='../../shipsEcma6/src/assets/star.png';
         this.highscores = [];   
         localStorage.setItem("highscores", JSON.stringify(this.highscores));
         this.storedHighScores = JSON.parse(localStorage.getItem("highscores"));
@@ -113,11 +120,14 @@ export default class Game {
                 this.enemies[i].drawImageArea(ctx, this.spritesheet, 30, 0, 10, 10)
             }
             //Draw Shots
-            ctx.fillStyle = 'white';
             for (var i = 0, l = this.player1.shots.length; i < l; i++) {
                 // ctx.fillStyle = 'red';
                 // this.shots[i].fill(ctx);
                 this.player1.shots[i].drawImageArea(ctx, this.spritesheet, 70, 0, 10, 10);
+            }
+            //Draw PowerUps
+            for (var i = 0, l = this.powerUps.length; i < l; i++) {
+                this.powerUps[i].render(ctx, this.gun, this.starImg);
             }
             //Draw Score
             ctx.fillStyle = '#fff';
@@ -141,6 +151,7 @@ export default class Game {
         if (this.state === 'playing' && this.scene == 'playing') {
             // Move player and shots
             this.player1.update();
+            
             for (var i = 0, l = this.player1.shots.length; i < l; i++) {
                 this.player1.shots[i].update();
             }
@@ -150,24 +161,43 @@ export default class Game {
                 for (var j = 0, ll = this.player1.shots.length; j < ll; j++) {
                     if (this.player1.shots[j].rectCollision(this.enemies[i])) {
                         this.enemies[i].health--;
-                        this.player1.shots.splice(j--, 1)
-                        ll--;
-                        if (this.enemies[i].health == 0) {
+                            this.player1.shots.splice(j--, 1)
+                            ll--;
+                            if (this.enemies[i].health == 0) {
                             this.player1.score++;
+                            let r = MathRandom.max(20);
+                                if (r < 5) {
+                                    if (r == 0){    // New MultiShot
+                                        this.powerUps.push(new PowerUp(this.enemies[i].x, this.enemies[i].y, 10, 10, 1));
+                                    } else {        // New ExtraPoints
+                                        this.powerUps.push(new PowerUp(this.enemies[i].x, this.enemies[i].y, 10, 10, 0));
+                                    }
+                                }   
                             this.enemies[i].x = MathRandom.max(canvas.width / 10) * 10;
                             this.enemies[i].y = 0;
                             this.enemies[i].health = 2;
                             this.enemies.push(new Enemy(MathRandom.max(canvas.width / 10) * 10, 0, 10, 10));
-                        }
+                            
+                           
+                        } 
                         else {
                             this.enemies[i].timer = 1;
                         }
                     }
-                }
+                }   
             }
+            //Move Stars
             for (var i = 0, l = this.stars.length; i < l; i++) {
                 this.stars[i].update();
-            }   
+            }
+            //Check For Powerup Pickup
+            for (var i = 0, l = this.powerUps.length; i < l; i++) {
+                if (this.player1.checkPowerUp(this.powerUps[i])) {
+                    this.powerUps.splice(i--, 1);
+                    l--;
+                }
+               
+            }  
         }
     }
 

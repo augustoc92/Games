@@ -6,11 +6,11 @@ import Shot from '../elements/shot';
 export default class Player extends Rectangle {
 
     constructor(x, y, width , height, health){
-        super(x, y, width, height, health);
+        super(x, y, width, height);
         this.health = (health === undefined) ? 1 : health;
         this.timer = 0;
         this.shots = [];
-        this.multiShot = 1;
+        this.multiShot = 0;
         this.score = 0;
         this.state = '';
     }
@@ -34,11 +34,22 @@ export default class Player extends Rectangle {
             this.x -= 10;
         }
         if (KeyBoard.lastPress == KeyBoard.KEY_SPACE) {
-            this.shots.push(new Shot(this.x + 3, this.y, 5, 5));
-            KeyBoard.lastPress = null;  
-        }
-        if (KeyBoard.lastPress == KeyBoard.KEY_SPACE) {
-            this.shots.push(new Shot(this.x + 3, this.y, 5, 5));
+            if (this.multiShot == 2) {
+                this.shots.push(new Shot(this.x - 9, this.y +2, 5, 5))
+                this.shots.push(new Shot(this.x - 5, this.y, 5, 5))
+                this.shots.push(new Shot(this.x, this.y, 5, 5))
+                this.shots.push(new Shot(this.x + 5, this.y, 5, 5))
+                this.shots.push(new Shot(this.x + 9, this.y + 2, 5, 5))
+                this.shots.push(new Shot(this.x + 14, this.y + 4, 5, 5))
+              }
+              else if (this.multiShot == 1) {
+                this.shots.push(new Shot(this.x, this.y, 5, 5))
+                this.shots.push(new Shot(this.x + 5, this.y, 5, 5))
+              }
+              else {
+                this.shots.push(new Shot(this.x + 3, this.y, 5, 5));
+              }
+            
             KeyBoard.lastPress = null;  
         }
     }
@@ -65,31 +76,24 @@ export default class Player extends Rectangle {
         }
     }
 
-    checkPowerUp(powerUps){
+    checkPowerUp(powerUp){
         //Check For Range inside Canvas and Intersection
-        for (var i = 0, l = powerups.length; i < l; i++) {
-            powerups[i].y += 5
-            if (powerups[i].y > canvas.height) {
-                powerups.splice(i--, 1)
-                l--;
-                continue;
-            }
-            if (this.intersects(powerups[i])) {
-                if (powerups[i].type == 1) {
-                    if (this.multiShot < 3) {
-                        this.multiShot++;
-                    }
-                    else {
-                        this.score += 5;
-                    }
+        powerUp.y += 4; 
+        if (this.intersects(powerUp)) {
+            if (powerUp.type == 1) {
+                if (this.multiShot < 3) {
+                    this.multiShot++;
                 }
                 else {
                     this.score += 5;
                 }
-                powerups.splice(i--, 1);
-                l--;
             }
+            else {
+                this.score += 5;
+            }
+            return true;
         }
     }
 }
+
     

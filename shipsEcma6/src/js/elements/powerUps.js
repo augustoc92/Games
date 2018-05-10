@@ -2,10 +2,27 @@ import Rectangle from './rectangle'
 
 export default class PowerUp extends Rectangle{
     constructor(x, y, width, height, type){
-      this.x = (x === undefined) ? 0 : x
-      this.y = (y === undefined) ? 0 : y
-      this.width = (width === undefined) ? 0 : width
-      this.height = (height === undefined) ? this.width : height
+      super(x, y, width, height);
       this.type = (type === undefined) ? 1 : type
+    }
+
+    update(){
+      this.movePowerUp();
+    }
+    render(ctx ,gun ,star) {
+      if(this.type == 1) {
+        ctx.strokeStyle='#f90'
+        this.drawImage(ctx, gun)
+        // ctx.fillStyle = '#f90'
+      }
+      else {
+        ctx.strokeStyle='#cc6'
+        this.drawImage(ctx, star)
+        // ctx.fillStyle = '#cc6'
+      }
+    }
+
+    movePowerUp(){
+     
     }
 }
